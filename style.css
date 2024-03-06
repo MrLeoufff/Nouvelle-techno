@@ -1,0 +1,30 @@
+* {
+    margin: 0;
+    padding: 0;
+    
+    box-sizing: border-box;
+}
+
+h1, h2 {
+    text-align: center;
+    color: blue;
+}
+
+h3 {
+    text-align: center;
+    color: rgb(177, 37, 37);
+}
+
+p {
+    text-align: center;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    list-style: none;
+}
+
+
+
