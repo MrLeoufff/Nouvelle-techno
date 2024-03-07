@@ -23,12 +23,22 @@ if(isset($_SESSION["user"])){
         // Ajoutez ici tous les controles souhaité
 
         // On vérifie si l'email exist
-        
-        
-
-        // On enregistre en base de donnée
         // Co à la BDD
         require_once "require/bdd_connexion.php";
+
+        if(isset($_POST['email'])) {
+            $email = $_POST['email'];
+            $sql = "SELECT * FROM utilisateurs WHERE email=?";
+            $requete = $db->prepare($sql);
+            $requete->execute([$email]); 
+            $user = $requete->fetch();
+            if ($user) {
+                // email existe
+                die("l'email exist");
+            }
+        }    
+
+        // On enregistre en base de donnée
         $sql = "INSERT INTO `utilisateurs`(`username`, `email`, `pass`, `roles`) VALUES (:pseudo, :email, '$pass', '[\"ROLE_USER\"]')";
         // Préparer la requete
         $requete = $db->prepare($sql);
