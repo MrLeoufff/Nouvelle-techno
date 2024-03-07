@@ -19,7 +19,7 @@ if(isset($_SESSION["user"])){
             die("Ce n'est pas un email valide");
         }
         // On va hacher le mot de passe
-        $pass = password_hash($_POST["pass"], PASSWORD_ARGON2ID);
+        $pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
         // Ajoutez ici tous les controles souhaité
 
         // On vérifie si l'email exist
@@ -39,7 +39,8 @@ if(isset($_SESSION["user"])){
         }    
 
         // On enregistre en base de donnée
-        $sql = "INSERT INTO `utilisateurs`(`username`, `email`, `pass`, `roles`) VALUES (:pseudo, :email, '$pass', '[\"ROLE_USER\"]')";
+        $sql = "INSERT INTO `utilisateurs`(`username`, `email`, `pass`, `roles`) 
+        VALUES (:pseudo, :email, '$pass', '[\"ROLE_USER\"]')";
         // Préparer la requete
         $requete = $db->prepare($sql);
         $requete->bindValue(":pseudo", $pseudo, PDO::PARAM_STR);

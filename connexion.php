@@ -3,7 +3,7 @@
 session_start();
 if(isset($_SESSION["user"])){
     header("Location: profil.php");
-    exit;
+    exit; 
 }
     // On vérifie si le form a ete envoyé
     if(!empty($_POST)){
@@ -24,11 +24,13 @@ if(isset($_SESSION["user"])){
         $requete->execute();
         $user = $requete->fetch();
         // Si je n'est pas l'utilisateur en BDD
+        var_dump($user);
         if(!$user){
             die("L'utilisateur et/ou le mot de passe est incorrect");
         }
         // On a un utilisateur existant, on vérifie son mdp
-        if(password_verify($_POST["pass"], $user["pass"])) {
+        if(!password_verify($_POST["pass"], $user["pass"])) {
+            var_dump($_POST["pass"]);
             die("L'utilisateur et/ou le mot de passe est incorrect");
         }
         // Ici l'utilisateur et le mdp sont correct
@@ -36,14 +38,14 @@ if(isset($_SESSION["user"])){
         
         // On va stocker dans $session les information utilisateur
         $_SESSION["user"] = [
-            "id" => $user["id"],
+            "id" => $user["id_utilisateur"],
             "pseudo" => $user["username"],
             "email" => $user["email"],
             "roles" => $user["roles"]
         ];
         // On peut redirigé vers la page de profile par ex
         header("Location: profil.php");
-
+        exit;
     }
 }
     include_once "includes/header.php";
