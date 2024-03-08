@@ -5,6 +5,11 @@ session_start();
     ?>
         
     <h2>Profil de : <?=$_SESSION["user"]["pseudo"]?></h2>
+    <!-- <?php
+    echo "<pre>";
+    var_dump($_SESSION);
+    echo "</pre>";
+    ?> -->
 
     <p>Pseudo : <?=$_SESSION["user"]["pseudo"]?></p>
     <p>Email : <?=$_SESSION["user"]["email"]?></p>

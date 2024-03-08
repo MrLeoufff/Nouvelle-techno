@@ -14,10 +14,18 @@ if(isset($_SESSION["user"])){
         // Le formulaire est complet
         // On récupère les données en les protégeant
         $pseudo = strip_tags($_POST["nickname"]);
+        // On initialise l'erreur session
+        $_SESSION["error"] = [];
+        // On vérifie le pseudo
+        if(strlen($pseudo) < 2){
+            $_SESSION["error"][] = "Ce pseudo est trop cours";
+        }
         // On vérifie si l'email est bien un email
         if(!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
-            die("Ce n'est pas un email valide");
+            $_SESSION["error"][] = "Ce n'est pas un email valide";
         }
+        // Si pas d'erreur on passe à la suite
+        if($_SESSION["error"] === []) {
         // On va hacher le mot de passe
         $pass = password_hash($_POST["pass"], PASSWORD_DEFAULT);
         // Ajoutez ici tous les controles souhaité
@@ -63,10 +71,11 @@ if(isset($_SESSION["user"])){
         ];
         // On peut redirigé vers la page de profile par ex
         header("Location: profil.php");
+    }
 
     }else{
         //incomplet
-        die("Le formulaire n'est pas complet");
+        $_SESSION["error"] = ["Le formulaire n'est pas complet"];
     }
 }
 
@@ -75,7 +84,16 @@ if(isset($_SESSION["user"])){
     ?>
         
     <h2>Inscription</h2>
-
+    <?php
+    if(isset($_SESSION["error"])) {
+        foreach($_SESSION["error"] as $message) {
+            ?>
+            <p><?=$message?></p>
+            <?php
+        }
+        unset($_SESSION["error"]);
+    }
+    ?>
     <form action="" method="post">
         <div>
             <label for="pseudo">Pseudo</label>
