@@ -18,6 +18,8 @@ if(isset($_SESSION["user"])){
         if(!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
             // On affiche l'érreur
             $_SESSION["error"][] = "Vous n'avez pas entrer d'email valide";
+            header("Location: connexion.php");
+            exit;
         }
         
         if($_SESSION["error"] === []){
@@ -33,11 +35,15 @@ if(isset($_SESSION["user"])){
         // var_dump($user);
         if(!$user){
             $_SESSION["error"][] = "L'utilisateur et/ou le mot de passe est incorrect";
+            header("Location: connexion.php");
+            exit;
         } else {
         // On a un utilisateur existant, on vérifie son mdp
         if(!password_verify($_POST["pass"], $user["pass"])) {
             // var_dump($_POST["pass"]);
             $_SESSION["error"][] = "L'utilisateur et/ou le mot de passe est incorrect";
+            header("Location: connexion.php");
+            exit;
         } else {
         // Ici l'utilisateur et le mdp sont correct
         // On va pouvoir ouvrir la session/co l'utilisateur

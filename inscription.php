@@ -42,7 +42,9 @@ if(isset($_SESSION["user"])){
             $user = $requete->fetch();
             if ($user) {
                 // email existe
-                die("l'email exist");
+                $_SESSION["error"][] = "l'email exist";
+                header("Location: inscription.php");
+                exit;
             }
         }    
 
